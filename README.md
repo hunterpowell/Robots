@@ -4,22 +4,22 @@
 This project implements a genetic algorithm to evolve virtual robots that navigate through a 2D grid environment. The robots must learn to efficiently collect batteries while avoiding walls, with their behavior determined by a genetic encoding of movement patterns.
 
 ## Features
-- 🤖 Evolutionary algorithm with configurable parameters
-- 🗺️ Randomized map generation with customizable dimensions
-- 🔋 Battery collection and energy management system
-- 🧬 Genetic crossover and mutation operations
-- 📊 Generation-by-generation fitness tracking
-- 🏆 Elite preservation between generations
+- Evolutionary algorithm with configurable parameters
+- Randomized map generation with customizable dimensions
+- Battery collection and energy management system
+- Genetic crossover and mutation operations
+- Generation-by-generation fitness tracking
+- Elite preservation between generations
 
 ## Technical Details
 
 ### Configuration Parameters
 ```java
-ROBOTS_PER_GENERATION = 500    // Number of robots in each generation
-TOTAL_GENERATIONS = 500        // Number of generations to run
-ELITE_PERCENTAGE = 0.5         // Percentage of top performers to preserve
-TOURNAMENT_SIZE = 5            // Number of robots in each tournament selection
-MUTATION_RATE = 0.03          // Probability of gene mutation
+robotsPerGen = 500           // Number of robots in each generation
+generations = 500            // Number of generations to run
+topPercent = 0.5             // Percentage of top performers to preserve
+tournamentSize = 5           // Number of robots in each tournament selection
+mutationRate = 0.03          // Probability of gene mutation
 ```
 
 ### Map Environment
@@ -79,11 +79,6 @@ Utility class for 2D coordinates:
    - Create offspring through crossover
    - Apply random mutations
    - Replace population
-
-### Fitness Calculation
-Robots gain fitness points by:
-- Collecting standard batteries (+5 points)
-- Surviving longer periods
 
 ## Usage
 
