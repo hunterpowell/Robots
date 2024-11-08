@@ -1,0 +1,175 @@
+package main;
+
+import java.util.Random;
+
+public class Main {
+	public static int robotsPerGen = 500;
+	public static int generations = 500;
+	public static double topPercent = 0.5;
+	public static int tournamentSize = 5;
+	public static double mutationRate = 0.03;
+	public static int bestGen = 0;
+	public static int bestBot = 0;
+	public static Map bestMap = new Map();
+	public static Robot roboArray[] = new Robot[robotsPerGen];
+	public static int avgFitness[] = new int[generations];
+	public static Map map1[] = new Map[robotsPerGen];
+
+	public static void main(String args[]) {
+
+		// populates roboArray with randomly generated robots
+		for (int i = 0; i < robotsPerGen; i++) {
+			roboArray[i] = new Robot();
+		}
+		
+		for (int k = 0; k < generations; k++) {
+			int avg = 0;
+
+			// loops the generation through the maze
+			for (int i = 0; i < robotsPerGen; i++) {
+				map1[i] = new Map();
+				roboArray[i].reset();
+				roboArray[i].randomStart(map1[i]);
+				roboArray[i].look(map1[i]);
+				while (roboArray[i].energy > 0) {
+					roboArray[i].movement(map1[i]);
+				}
+				avg += roboArray[i].fitness;
+				// p(roboArray[i].fitness);
+			}
+			
+			// displays 69th robot from gen 1 for comparison
+			if (k == 0) {
+				p("Random selection of gen 1: " + roboArray[0].turnsAlive);
+				map1[69].displayMap();
+			}
+			
+			// sorts by fitness
+			roboArray = sort(roboArray, map1);
+			avgFitness[k] = (avg / robotsPerGen);
+			if (avgFitness[k] > avgFitness[bestGen]){
+				bestGen = k;
+				bestBot = roboArray[0].fitness;
+				bestMap = map1[0];
+			}
+			avg = 0;
+			
+			// prints avg fitness of each gen
+			p("Avg fitness of gen " + (k + 1) + ": " + avgFitness[k]);
+			
+			if (k == generations - 1) {
+				p("\nFinal Results:");
+				p("-------------------------------------------");
+				p("Best generation: " + (bestGen + 1));
+				p("Best generation average fitness: " + avgFitness[bestGen]);
+				p("Best bot of best gen fitness: " + bestBot);
+				p("Mathematical maximum fitness: " + (int)(Math.pow(map1[0].size-2, 2))*2);
+				p("-------------------------------------------");
+				bestMap.displayMap();
+				// p("Best robot genes: "); 
+				// roboArray[0].displayGenes();
+				// p("Best robot turns alive: " + roboArray[0].turnsAlive);
+				// p("Final generation average fitness: " + avgFitness[generations - 1]);
+				// map1[0].displayMap();
+			}
+			// p(roboArray[0].fitness);
+
+			// next generation
+			Robot[] nextGen = new Robot[robotsPerGen];
+
+			// preserve the top n% of performers
+			for (int i = 0; i < robotsPerGen * topPercent; i++) 
+				nextGen[i] = new Robot(roboArray[i]);
+			
+			// bottom n% get new genes from crossover
+			for (int i = (int)(robotsPerGen * topPercent); i < robotsPerGen; i+= 2) {
+				// tourney size of 5 promotes decent evolutionary pressure while preserving diversity. higher number is more pressure but lower diversity
+				Robot parent1 = tournament(roboArray);
+				Robot parent2 = tournament(roboArray);
+
+				// babies
+				Robot[] children = crossover(parent1, parent2);
+
+				// this is why we're stepping by 2
+				nextGen[i] = children[0];
+				if (i + 1 < robotsPerGen) 
+					nextGen[i + 1] = children[1];
+			}
+
+			// replace old gen with new
+			roboArray = nextGen;
+		}
+	}
+	
+	public static Robot[] sort(Robot[] r, Map[] m) {
+		// selection sort
+		for (int i = 0; i < robotsPerGen; i++) {
+			for (int j = 0; j < robotsPerGen; j++) {
+				if (r[i].fitness > r[j].fitness) {
+					Robot tmp = r[i];
+					r[i] = r[j];
+					r[j] = tmp;
+					// keeps each map associated with its robot
+					Map tmp2 = m[i];
+					m[i] = m[j];
+					m[j] = tmp2;
+				}	
+			}
+		}
+		return r;
+	}
+
+	private static Robot tournament(Robot[] population) {
+		Robot best = null;
+		for (int i = 0; i < tournamentSize; i++) {
+			int x = (int)(Math.random() * population.length);
+			if (best == null || population[x].fitness > best.fitness) 
+				best = population[x];
+		}
+		return best;
+	}
+
+	private static Robot[] crossover(Robot p1, Robot p2) {
+		Robot child1 = new Robot();
+		Robot child2 = new Robot();
+		Random rand = new Random();
+
+		for (int y = 0; y < 16; y++) {
+			if (Math.random() < 0.5) {
+				// copy parent 1 to child 1 and vice versa
+				for (int z = 0; z < 4; z++) {
+					child1.genes[y][z] = p1.genes[y][z];
+					child2.genes[y][z] = p2.genes[y][z];
+					if (Math.random() < mutationRate) { 
+						child1.genes[y][z] = rand.nextInt(3); // randomly changes a gene to a new state
+						child2.genes[y][z] = rand.nextInt(3);
+					}
+				}
+				child1.movementGene[y] = p1.movementGene[y];
+				child2.movementGene[y] = p2.movementGene[y];
+			}
+			else {
+				// copy parent 1 to child 2 and vice versa
+				for (int z = 0; z < 4; z++){
+					child1.genes[y][z] = p2.genes[y][z];
+					child2.genes[y][z] = p1.genes[y][z];
+					if (Math.random() < mutationRate) {
+						child1.genes[y][z] = rand.nextInt(3); // randomly changes a gene to a new state
+						child2.genes[y][z] = rand.nextInt(3);
+					}
+				}
+				child1.movementGene[y] = p2.movementGene[y];
+				child2.movementGene[y] = p1.movementGene[y];
+			}
+		}
+		
+		return new Robot[]{child1, child2};
+	}
+	
+	// handy dandy print method
+	public static <E> void p(E item){
+
+		System.out.println(item);
+
+	}
+}
