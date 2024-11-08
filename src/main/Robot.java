@@ -112,9 +112,6 @@ public class Robot {
 	}
 	
 	private void move(Map m, int dir) {
-//		System.out.println("dir = " + dir);
-//		System.out.println("this.direction = " + this.direction[dir]);
-//		System.out.println("coords = " + this.coords[0] + ", " + this.coords[1]);
 		this.energy -= 1;
 		this.turnsAlive += 1;
 		if (this.direction[dir] != 2) {
@@ -132,22 +129,10 @@ public class Robot {
 			// reset current square, see end of switch statement
 			m.map[this.coords.getY()][this.coords.getX()] = 0;
 			switch (dir) {
-				case 0:
-					// move robot north
-					this.coords.adjustY(-1);
-					break;
-				case 1:
-					// move robot east
-					this.coords.adjustX(1);
-					break;
-				case 2:
-					// move robot south
-					this.coords.adjustY(1);;
-					break;
-				case 3:
-					// move robot west
-					this.coords.adjustX(-1);
-					break;
+				case 0 -> this.coords.adjustY(-1);
+				case 1 -> this.coords.adjustX(1);
+				case 2 -> this.coords.adjustY(1);
+				case 3 -> this.coords.adjustX(-1);
 			}
 			
 			// set new current square depending on direction moved
