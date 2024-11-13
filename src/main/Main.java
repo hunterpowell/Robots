@@ -57,7 +57,7 @@ public class Main {
 				avg += state.roboArray[i].fitness;
 				// p(roboArray[i].fitness);
 			}
-			
+			 
 			// displays 69th robot from gen 1 for comparison
 			if (k == 0) {
 				p("Random selection of gen 1: " + state.roboArray[0].turnsAlive);
@@ -181,7 +181,7 @@ public class Main {
 			}
 		}
 	}
-	
+
 	private static void finalStats(SimulationState state){
 		p("\nFinal Results:");
 				p("-------------------------------------------");
