@@ -66,7 +66,7 @@ public class Main {
 
 			state.avgFitness[k] = (avg / SimulationConfig.robotsPerGen);
 			// sorts by fitness
-			evaulteFitness(state, k);
+			evaluateFitness(state, k);
 			avg = 0;
 			
 			// display stats if final gen
@@ -153,7 +153,7 @@ public class Main {
 		return new Robot[]{child1, child2};
 	}
 
-	private static void evaulteFitness(SimulationState state, int currentGen) {
+	private static void evaluateFitness(SimulationState state, int currentGen) {
 		sort(state.roboArray, state.map1);
 		if (state.avgFitness[currentGen] > state.avgFitness[state.bestGen]){
 			state.bestGen = currentGen;
@@ -181,7 +181,7 @@ public class Main {
 			}
 		}
 	}
-
+	
 	private static void finalStats(SimulationState state){
 		p("\nFinal Results:");
 				p("-------------------------------------------");
