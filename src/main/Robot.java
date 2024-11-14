@@ -89,20 +89,8 @@ public class Robot {
 	}
 
 	public void movement(Map m) {
-		// default value of 9 to use in case of no match
-		int dir = 9;
 		Random rand = new Random();
-		for (int i = 0; i < this.totalGenes; i++) {
-			if (this.direction[0] == this.genes[i][0] && 
-				this.direction[1] == this.genes[i][1] && 
-				this.direction[2] == this.genes[i][2] && 
-				this.direction[3] == this.genes[i][3])
-					dir = this.movementGene[i];
-		}
-		
-		// if no match, use final movement gene
-		if (dir == 9) 
-			dir = this.movementGene[this.totalGenes - 1];
+		int dir = this.movementGene[checkGenes()];
 		
 		// random direction if movement gene is 4
 		if (dir == 4)
@@ -150,4 +138,15 @@ public class Robot {
 		this.turnsAlive = 0;
     }
 
+	private int checkGenes() {
+		for (int i = 0; i < this.totalGenes; i++) {
+			if (this.direction[0] == this.genes[i][0] && 
+				this.direction[1] == this.genes[i][1] && 
+				this.direction[2] == this.genes[i][2] && 
+				this.direction[3] == this.genes[i][3])
+				return i;
+		}
+		// defaults to last gene if no matches
+		return this.movementGene[this.totalGenes - 1];
+	}
 }
