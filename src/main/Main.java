@@ -128,7 +128,8 @@ public class Main {
 					child1.genes[y][z] = p1.genes[y][z];
 					child2.genes[y][z] = p2.genes[y][z];
 					if (Math.random() < SimulationConfig.mutationRate) { 
-						child1.genes[y][z] = rand.nextInt(3); // randomly changes a gene to a new state
+						// randomly changes a gene to a new state
+						child1.genes[y][z] = rand.nextInt(3);
 						child2.genes[y][z] = rand.nextInt(3);
 					}
 				}
@@ -141,7 +142,8 @@ public class Main {
 					child1.genes[y][z] = p2.genes[y][z];
 					child2.genes[y][z] = p1.genes[y][z];
 					if (Math.random() < SimulationConfig.mutationRate) {
-						child1.genes[y][z] = rand.nextInt(3); // randomly changes a gene to a new state
+						// randomly changes a gene to a new state
+						child1.genes[y][z] = rand.nextInt(3);
 						child2.genes[y][z] = rand.nextInt(3);
 					}
 				}
