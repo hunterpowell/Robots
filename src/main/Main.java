@@ -9,7 +9,7 @@ public class Main {
 		private static final int generations = 500;
 		private static final double topPercent = 0.5;
 		private static final int tournamentSize = 5;
-		private static final double mutationRate = 0.03;
+		private static final double mutationRate = 0.035;
 	}
 
 	private static class SimulationState {
