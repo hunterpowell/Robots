@@ -182,17 +182,60 @@ public class Main {
 				}	
 			}
 		}
-	}
+	} 
 
 	private static void finalStats(SimulationState state){
 		p("\nFinal Results:");
-				p("-------------------------------------------");
-				p("Best generation: " + (state.bestGen + 1));
-				p("Best generation average fitness: " + state.avgFitness[state.bestGen]);
-				p("Best bot of best gen fitness: " + state.bestBot);
-				p("Mathematical maximum fitness: " + (int)(Math.pow(state.map1[0].size-2, 2))*2);
-				p("-------------------------------------------");
-				state.bestMap.displayMap();
+		p("-------------------------------------------");
+		p("Best generation: " + (state.bestGen + 1));
+		p("Best generation average fitness: " + state.avgFitness[state.bestGen]);
+		p("Best bot of best gen fitness: " + state.bestBot);
+		p("Mathematical maximum fitness: " + (int)(Math.pow(state.map1[0].size-2, 2))*2);
+		p("-------------------------------------------");
+		state.bestMap.displayMap();
+
+		String buffer[][] = new String[20][50];
+		for (int i = 0; i < 20; i++) {
+			for (int j = 0; j < 50; j++) {
+				buffer[i][j] = ".";
+			}
+		}
+		for (int i = 19; i >= 0; i--) {
+			for (int j = 0; j < 50; j++) {
+				int avg = 0;
+				for (int k = 0; k < 10; k++)
+					avg += state.avgFitness[(j*10)+k];
+				avg /= 400;
+				if (i == avg)
+					buffer[i][j] = "#";
+			}
+		}
+		for (int i = 19; i >= 0; i--) {
+			String s = String.format("%2d", ((i+1) * 4));
+			System.out.print(s + "0  ");
+			for (int j = 0; j < 50; j++) {
+				System.out.print(buffer[i][j] + " ");
+			}
+			p("");
+		}
+		System.out.print("     ");
+		
+		for (int i = 0; i < 50; i++){
+			System.out.print(((i - (i%10)) / 10) + " ");
+		}
+
+
+		p("");
+		System.out.print("     ");
+		for (int i = 0; i < 50; i++) 
+			System.out.print(((i * 2)%10) + " ");
+
+
+		p("");
+		System.out.print("     ");
+		for (int i = 0; i < 50; i++)
+			System.out.print("0 ");
+		
 	}
 	
 	// handy dandy print method
