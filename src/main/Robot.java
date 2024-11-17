@@ -38,7 +38,7 @@ public class Robot {
 		}
 		// movement gene gets values between 0 and 4: move n, e, s, w, and random move
 		for (int i = 0; i < totalGenes; i++) {
-			int r = rand.nextInt(5);
+			r = rand.nextInt(5);
 			movementGene[i] = r;
 		}
 		
@@ -59,9 +59,7 @@ public class Robot {
 		genes = new int[totalGenes][genesPerBot];
 		movementGene = new int[totalGenes];
         for (int i = 0; i < 16; i++) {
-            for (int j = 0; j < 4; j++) {
-                this.genes[i][j] = other.genes[i][j];
-            }
+			System.arraycopy(other.genes, 0, this.genes, 0, this.genes.length);
             this.movementGene[i] = other.movementGene[i];
         }
     }
@@ -89,7 +87,7 @@ public class Robot {
 	}
 
 	public void movement(Map m) {
-		Random rand = new Random();
+		rand = new Random();
 		int dir = this.movementGene[checkGenes()];
 		
 		// random direction if movement gene is 4

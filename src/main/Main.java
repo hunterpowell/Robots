@@ -5,11 +5,11 @@ import java.util.Random;
 public class Main {
 	// configurable sim numbers
 	private static final class SimulationConfig {
-		private static final int robotsPerGen = 500;
-		private static final int generations = 500;
-		private static final double topPercent = 0.5;
-		private static final int tournamentSize = 5;
-		private static final double mutationRate = 0.035;
+		private static final int ROBOTS_PER_GEN = 500;
+		private static final int GENERATIONS = 500;
+		private static final double TOP_PERCENT = 0.5;
+		private static final int TOURNAMENT_SIZE = 20;
+		private static final double MUTATION_RATE = 0.035;
 	}
 
 	private static class SimulationState {
@@ -21,9 +21,9 @@ public class Main {
 		public final Map map1[];
 
 		public SimulationState() {
-			this.roboArray = new Robot[SimulationConfig.robotsPerGen];
-			this.avgFitness = new int[SimulationConfig.generations];
-			this.map1 = new Map[SimulationConfig.robotsPerGen];
+			this.roboArray = new Robot[SimulationConfig.ROBOTS_PER_GEN];
+			this.avgFitness = new int[SimulationConfig.GENERATIONS];
+			this.map1 = new Map[SimulationConfig.ROBOTS_PER_GEN];
 		}
 	}
 
@@ -34,7 +34,7 @@ public class Main {
 	}
 
 	private static void initializeSimulation(SimulationState state) {
-		for (int i = 0; i < SimulationConfig.robotsPerGen; i++) {
+		for (int i = 0; i < SimulationConfig.ROBOTS_PER_GEN; i++) {
 			state.roboArray[i] = new Robot();
 		}
 	}
@@ -42,11 +42,11 @@ public class Main {
 	private static void runSimulation(SimulationState state) {
 		
 		// main loop
-		for (int k = 0; k < SimulationConfig.generations; k++) {
+		for (int k = 0; k < SimulationConfig.GENERATIONS; k++) {
 			
 			int avg = 0;
 			// loops the generation through the maze
-			for (int i = 0; i < SimulationConfig.robotsPerGen; i++) {
+			for (int i = 0; i < SimulationConfig.ROBOTS_PER_GEN; i++) {
 				state.map1[i] = new Map();
 				state.roboArray[i].reset();
 				state.roboArray[i].randomStart(state.map1[i]);
@@ -64,13 +64,12 @@ public class Main {
 				state.map1[69].displayMap();
 			}
 
-			state.avgFitness[k] = (avg / SimulationConfig.robotsPerGen);
+			state.avgFitness[k] = (avg / SimulationConfig.ROBOTS_PER_GEN);
 			// sorts by fitness
 			evaluateFitness(state, k);
-			avg = 0;
 			
 			// display stats if final gen
-			if (k == SimulationConfig.generations - 1) {
+			if (k == SimulationConfig.GENERATIONS - 1) {
 				finalStats(state);
 			}
 
@@ -81,14 +80,14 @@ public class Main {
 
 	private static void evolveNextGen(SimulationState state) {
 		// next generation
-		Robot[] nextGen = new Robot[SimulationConfig.robotsPerGen];
+		Robot[] nextGen = new Robot[SimulationConfig.ROBOTS_PER_GEN];
 
 		// preserve the top n% of performers
-		for (int i = 0; i < SimulationConfig.robotsPerGen * SimulationConfig.topPercent; i++) 
+		for (int i = 0; i < SimulationConfig.ROBOTS_PER_GEN * SimulationConfig.TOP_PERCENT; i++) 
 			nextGen[i] = new Robot(state.roboArray[i]);
 		
 		// bottom n% get new genes from crossover
-		for (int i = (int)(SimulationConfig.robotsPerGen * SimulationConfig.topPercent); i < SimulationConfig.robotsPerGen; i+= 2) {
+		for (int i = (int)(SimulationConfig.ROBOTS_PER_GEN * SimulationConfig.TOP_PERCENT); i < SimulationConfig.ROBOTS_PER_GEN; i+= 2) {
 			// tourney size of 5 promotes decent evolutionary pressure while preserving diversity. higher number is more pressure but lower diversity
 			Robot parent1 = tournament(state.roboArray);
 			Robot parent2 = tournament(state.roboArray);
@@ -98,17 +97,17 @@ public class Main {
 
 			// this is why we're stepping by 2
 			nextGen[i] = children[0];
-			if (i + 1 < SimulationConfig.robotsPerGen) 
+			if (i + 1 < SimulationConfig.ROBOTS_PER_GEN) 
 				nextGen[i + 1] = children[1];
 		}
 
 		// replace old gen with new
-		System.arraycopy(nextGen, 0, state.roboArray, 0, SimulationConfig.robotsPerGen);
+		System.arraycopy(nextGen, 0, state.roboArray, 0, SimulationConfig.ROBOTS_PER_GEN);
 	}
 
 	private static Robot tournament(Robot[] population) {
 		Robot best = null;
-		for (int i = 0; i < SimulationConfig.tournamentSize; i++) {
+		for (int i = 0; i < SimulationConfig.TOURNAMENT_SIZE; i++) {
 			int x = (int)(Math.random() * population.length);
 			if (best == null || population[x].fitness > best.fitness) 
 				best = population[x];
@@ -127,7 +126,7 @@ public class Main {
 				for (int z = 0; z < 4; z++) {
 					child1.genes[y][z] = p1.genes[y][z];
 					child2.genes[y][z] = p2.genes[y][z];
-					if (Math.random() < SimulationConfig.mutationRate) { 
+					if (Math.random() < SimulationConfig.MUTATION_RATE) { 
 						// randomly changes a gene to a new state
 						child1.genes[y][z] = rand.nextInt(3);
 						child2.genes[y][z] = rand.nextInt(3);
@@ -141,7 +140,7 @@ public class Main {
 				for (int z = 0; z < 4; z++){
 					child1.genes[y][z] = p2.genes[y][z];
 					child2.genes[y][z] = p1.genes[y][z];
-					if (Math.random() < SimulationConfig.mutationRate) {
+					if (Math.random() < SimulationConfig.MUTATION_RATE) {
 						// randomly changes a gene to a new state
 						child1.genes[y][z] = rand.nextInt(3);
 						child2.genes[y][z] = rand.nextInt(3);
@@ -169,8 +168,8 @@ public class Main {
 
 	private static void sort(Robot[] r, Map[] m) {
 		// selection sort
-		for (int i = 0; i < SimulationConfig.robotsPerGen; i++) {
-			for (int j = 0; j < SimulationConfig.robotsPerGen; j++) {
+		for (int i = 0; i < SimulationConfig.ROBOTS_PER_GEN; i++) {
+			for (int j = 0; j < SimulationConfig.ROBOTS_PER_GEN; j++) {
 				if (r[i].fitness > r[j].fitness) {
 					Robot tmp = r[i];
 					r[i] = r[j];
