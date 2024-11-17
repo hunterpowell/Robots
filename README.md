@@ -15,11 +15,11 @@ This project implements a genetic algorithm to evolve virtual robots that naviga
 
 ### Configuration Parameters
 ```java
-robotsPerGen = 500           // Number of robots in each generation
-generations = 500            // Number of generations to run
-topPercent = 0.5             // Percentage of top performers to preserve
-tournamentSize = 5           // Number of robots in each tournament selection
-mutationRate = 0.03          // Probability of gene mutation
+robotsPerGen = 500            // Number of robots in each generation
+generations = 500             // Number of generations to run
+topPercent = 0.5              // Percentage of top performers to preserve
+tournamentSize = 20           // Number of robots in each tournament selection
+mutationRate = 0.035          // Probability of gene mutation
 ```
 
 ### Map Environment
