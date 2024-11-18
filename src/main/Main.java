@@ -8,10 +8,11 @@ public class Main {
 		private static final int ROBOTS_PER_GEN = 500;
 		private static final int GENERATIONS = 500;
 		private static final double TOP_PERCENT = 0.5;
-		private static final int TOURNAMENT_SIZE = 20;
-		private static final double MUTATION_RATE = 0.035;
+		private static final int TOURNAMENT_SIZE = 10;
+		private static final double MUTATION_RATE = 0.03;
 	}
 
+	// state object
 	private static class SimulationState {
 		public int bestGen = 0;
 		public int bestBot = 0;
@@ -88,7 +89,7 @@ public class Main {
 		
 		// bottom n% get new genes from crossover
 		for (int i = (int)(SimulationConfig.ROBOTS_PER_GEN * SimulationConfig.TOP_PERCENT); i < SimulationConfig.ROBOTS_PER_GEN; i+= 2) {
-			// tourney size of 5 promotes decent evolutionary pressure while preserving diversity. higher number is more pressure but lower diversity
+			// tourney size of 10 promotes decent evolutionary pressure while preserving diversity. higher number is more pressure but lower diversity
 			Robot parent1 = tournament(state.roboArray);
 			Robot parent2 = tournament(state.roboArray);
 
