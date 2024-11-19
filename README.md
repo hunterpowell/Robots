@@ -97,5 +97,5 @@ The simulation provides:
 
 ## Future Improvements
 - [ ] Implement parallelization for fitness evaluation
-- [ ] Add visualization of evolution progress
+- [x] Add visualization of evolution progress
 - [ ] Introduce more complex environments
