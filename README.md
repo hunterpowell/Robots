@@ -1,7 +1,7 @@
 # Robot Evolution Simulation
 
 ## Overview
-This project implements a genetic algorithm to evolve virtual robots that navigate through a 2D grid environment. The robots must learn to efficiently collect batteries while avoiding walls, with their behavior determined by a genetic encoding of movement patterns.
+This project implements a genetic algorithm to evolve virtual robots that navigate through a 2D grid environment. The robots must learn to efficiently collect batteries while avoiding walls, with their behavior determined by a genetic encoding of movement patterns. Inspiration provided by a 1968 Harvard experiment, with my own flair added. 
 
 ## Features
 - Evolutionary algorithm with configurable parameters
