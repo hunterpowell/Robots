@@ -106,11 +106,6 @@ public class Robot {
 				this.energy += 5;
 				this.fitness += 5;
 			}
-			// else if super battery, eat it
-			else if (this.direction[dir] == 3) {
-				this.energy += 10;
-				this.energy += 10;
-			}
 			
 			// reset current square, see end of switch statement
 			m.map[this.coords.getY()][this.coords.getX()] = 0;
