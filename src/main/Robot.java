@@ -28,7 +28,7 @@ public class Robot {
 		genes = new int[totalGenes][genesPerBot];
 		movementGene = new int[totalGenes];
 		
-		// populates genes with random values between 0 and 3: empty space, wall, battery, super battery;
+		// populates genes with random values between 0 and 2: empty space, wall, battery;
 		rand = new Random();
 		for (int i = 0; i < totalGenes; i++) {
 			for (int j = 0; j < genesPerBot; j++) {
