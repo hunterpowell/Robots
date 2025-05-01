@@ -29,12 +29,9 @@ public class Main {
 	}
 
 	public static void main(String args[]) {
-		// SimulationState state = new SimulationState();
-		// initializeSimulation(state);
-		// runSimulation(state);
-
-		MazeGenerator maze = new MazeGenerator(23);
-		maze.displayMaze();
+		SimulationState state = new SimulationState();
+		initializeSimulation(state);
+		runSimulation(state);
 	}
 
 	private static void initializeSimulation(SimulationState state) {
